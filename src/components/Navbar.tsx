@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
+import { signIn, signOut, useSession } from 'next-auth/react';
 
 export default function Navbar() {
   useEffect(() => {
@@ -24,13 +25,19 @@ export default function Navbar() {
     };
   }, []);
 
+  const { data: session } = useSession();
+
   return (
     <div className='flex justify-between items-center h-[60px] px-4'>
       <nav>
         <ul className='text-2xl font-bold'>나의 합계 계산기</ul>
       </nav>
       <nav>
-        <ul>로그인</ul>
+        {session ? (
+          <button onClick={() => signOut()}>로그아웃</button>
+        ) : (
+          <button onClick={() => signIn()}>로그인</button>
+        )}
       </nav>
     </div>
   );

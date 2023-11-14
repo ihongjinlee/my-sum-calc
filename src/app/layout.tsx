@@ -2,6 +2,7 @@ import './globals.css';
 import { Inter } from 'next/font/google';
 import type { Metadata } from 'next';
 import Navbar from '@/components/Navbar';
+import AuthContext from '@/context/AuthContext';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -20,10 +21,12 @@ export default function RootLayout({
       <body
         className={`${inter.className} bg-stone-100 dark:bg-stone-950 text-stone-950 dark:text-stone-100`}
       >
-        <header className='z-10'>
-          <Navbar />
-        </header>
-        <main className='h-[calc(100vh-60px)]'>{children}</main>
+        <AuthContext>
+          <header className='z-10'>
+            <Navbar />
+          </header>
+          <main className='h-[calc(100vh-60px)]'>{children}</main>
+        </AuthContext>
       </body>
     </html>
   );
