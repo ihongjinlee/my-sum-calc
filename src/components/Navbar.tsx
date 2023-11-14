@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react';
 import { signOut, useSession } from 'next-auth/react';
+import Avatar from './Avatar';
 
 export default function Navbar() {
   useEffect(() => {
@@ -26,6 +27,11 @@ export default function Navbar() {
   }, []);
 
   const { data: session } = useSession();
+  const user = session?.user;
+
+  const handleSignOut = async () => {
+    await signOut();
+  };
 
   return (
     <div className='flex justify-between items-center h-[60px] px-4'>
@@ -33,7 +39,16 @@ export default function Navbar() {
         <ul className='text-2xl font-bold'>나의 합계 계산기</ul>
       </nav>
       <nav>
-        {session && <button onClick={() => signOut()}>로그아웃</button>}
+        <ul className='flex gap-2 items-center'>
+          {user && (
+            <li>
+              <Avatar image={user.image} size='medium' />
+            </li>
+          )}
+          <li>
+            {session && <button onClick={handleSignOut}>로그아웃</button>}
+          </li>
+        </ul>
       </nav>
     </div>
   );
