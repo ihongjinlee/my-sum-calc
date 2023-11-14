@@ -1,18 +1,21 @@
+import Signin from '@/components/Signin';
 import { authOptions } from '@/util/authOptions';
 import { getServerSession } from 'next-auth';
+import { getProviders } from 'next-auth/react';
 import { redirect } from 'next/navigation';
 
-export default async function HomePage() {
+export default async function SignInPage() {
   const session = await getServerSession(authOptions);
-  const user = session?.user;
 
-  if (!user) {
-    redirect('/auth/signin');
+  if (session) {
+    redirect('/');
   }
+
+  const providers = (await getProviders()) ?? {};
 
   return (
     <section className='flex h-full justify-center items-center'>
-      <h1 className='text-2xl'>수치의 합계를 보기 편하게</h1>
+      <Signin providers={providers} />
     </section>
   );
 }
