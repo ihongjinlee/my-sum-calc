@@ -6,4 +6,4 @@
 - 상태 관리 :
 - 패키지 매니저 : Yarn Berry
 - 스타일링 : TailwindCSS
-- 백엔드 :
+- 백엔드 : Sanity
