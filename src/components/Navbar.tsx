@@ -38,15 +38,11 @@ export default function Navbar() {
     <div className='flex justify-between items-center h-[60px] px-4'>
       <nav className='flex'>
         <div className='text-2xl font-bold'>나의 합계 계산기</div>
-        {/* {(process.env.NEXT_PUBLIC_RUN_MODE === 'local' ||
-          process.env.NEXT_PUBLIC_RUN_MODE === 'development') && (
+        {process.env.NEXT_PUBLIC_RUN_MODE !== 'production' && (
           <div className='flex items-end text-gray-500 text-sm`'>
             {process.env.NEXT_PUBLIC_RUN_MODE} v{packageJson.version}
           </div>
-        )} */}
-        <div className='flex items-end text-gray-500 text-sm`'>
-          {process.env.NEXT_PUBLIC_RUN_MODE} v{packageJson.version}
-        </div>
+        )}
       </nav>
       <nav>
         <ul className='flex gap-2 items-center'>
