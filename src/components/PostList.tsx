@@ -2,6 +2,7 @@
 
 import useSWR from 'swr';
 import { SimplePost } from '@/model/post';
+import PostListCard from './PostListCard';
 
 export default function PostList() {
   const { data: posts, isLoading: loading } =
@@ -9,14 +10,15 @@ export default function PostList() {
 
   return (
     <section>
-      <ul>
-        {posts &&
-          posts.map(({ id, title, sum }) => (
-            <li key={id}>
-              {title} : {sum}
+      {posts && (
+        <ul>
+          {posts.map((post) => (
+            <li key={post.id} className='mt-10'>
+              <PostListCard post={post} />
             </li>
           ))}
-      </ul>
+        </ul>
+      )}
     </section>
   );
 }
