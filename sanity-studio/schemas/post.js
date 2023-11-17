@@ -38,5 +38,24 @@ export default {
         },
       ],
     },
+    {
+      title: 'sum',
+      name: 'sum',
+      type: 'number',
+    },
   ],
+  preview: {
+    select: {
+      title: 'title',
+      sum: 'sum',
+      authorName: 'author.name',
+      authorUserName: 'author.username',
+    },
+    prepare({ title, sum, authorName, authorUserName }) {
+      return {
+        title: `${title} : ${sum}`,
+        subtitle: `by ${authorName} (${authorUserName})`,
+      };
+    },
+  },
 };
