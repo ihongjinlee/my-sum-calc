@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google';
 import type { Metadata } from 'next';
 import Navbar from '@/components/Navbar';
 import AuthContext from '@/context/AuthContext';
+import SWRConfigContext from '@/context/SWRConfigContext';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -25,7 +26,9 @@ export default function RootLayout({
           <header className='z-10'>
             <Navbar />
           </header>
-          <main className='h-[calc(100vh-60px)]'>{children}</main>
+          <main className='h-[calc(100vh-60px)]'>
+            <SWRConfigContext>{children}</SWRConfigContext>
+          </main>
         </AuthContext>
       </body>
     </html>
