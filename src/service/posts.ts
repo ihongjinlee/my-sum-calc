@@ -11,3 +11,12 @@ export async function getPostsOf(username: string) {
         }
     `);
 }
+
+export async function getPost(id: string) {
+  return client.fetch(`
+  *[_type=="post" && _id=="${id}"][0]{
+        ...,
+        "id":_id
+      }
+  `);
+}

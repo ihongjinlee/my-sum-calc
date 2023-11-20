@@ -3,6 +3,7 @@
 import useSWR from 'swr';
 import { SimplePost } from '@/model/post';
 import PostListCard from './PostListCard';
+import Link from 'next/link';
 
 export default function PostList() {
   const { data: posts, isLoading: loading } =
@@ -14,7 +15,9 @@ export default function PostList() {
         <ul>
           {posts.map((post) => (
             <li key={post.id} className='mt-10'>
-              <PostListCard post={post} />
+              <Link href={`/post/${post.id}`}>
+                <PostListCard post={post} />
+              </Link>
             </li>
           ))}
         </ul>
