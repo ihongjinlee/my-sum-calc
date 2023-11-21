@@ -14,10 +14,6 @@ export default function PostContents({ postId }: Props) {
     `/api/posts/${postId}`
   );
 
-  function sum(arr: PostListItem[]) {
-    return arr.reduce((acc, obj) => acc + obj.value, 0);
-  }
-
   return (
     <section>
       {post && (
