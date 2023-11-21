@@ -6,11 +6,14 @@ type Props = {
 
 export default function PostListCard({ post: { title, sum } }: Props) {
   return (
-    <article className='w-[400px] p-10 bg-blue-800 rounded-2xl shadow-md'>
-      <h2 className='text-sm'>{title}</h2>
-      <h1 className='text-3xl font-bold'>
+    <button
+      className='bg-[#1d9df0] hover:bg-[#1d9df0]/90 focus:ring-4 focus:outline-none focus:ring-[#1d9df0]/50 dark:focus:ring-[#1d9df0]/55
+    px-10 py-5 w-full items-center justify-between'
+    >
+      <h2>{title}</h2>
+      <h1 className='font-bold text-3xl'>
         {sum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
       </h1>
-    </article>
+    </button>
   );
 }

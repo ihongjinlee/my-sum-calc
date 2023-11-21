@@ -12,15 +12,13 @@ export default function PostList() {
   return (
     <section>
       {posts && (
-        <ul>
+        <div>
           {posts.map((post) => (
-            <li key={post.id} className='mt-10'>
-              <Link href={`/post/${post.id}`}>
-                <PostListCard post={post} />
-              </Link>
-            </li>
+            <Link key={post.id} href={`/post/${post.id}`}>
+              <PostListCard post={post} />
+            </Link>
           ))}
-        </ul>
+        </div>
       )}
     </section>
   );

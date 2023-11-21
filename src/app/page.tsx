@@ -12,7 +12,7 @@ export default async function HomePage() {
   }
 
   return (
-    <section className='flex justify-center'>
+    <section>
       <PostList />
     </section>
   );

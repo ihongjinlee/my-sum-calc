@@ -1,11 +1,11 @@
-import PostDetail from '@/components/PostDetail';
+import PostContents from '@/components/PostContents';
 
 type Props = { params: { id: string } };
 
 export default function PostPage({ params: { id } }: Props) {
   return (
     <div className='flex'>
-      <PostDetail postId={id} />
+      <PostContents postId={id} />
     </div>
   );
 }
