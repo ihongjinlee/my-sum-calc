@@ -20,9 +20,10 @@ export default function PostContents({ postId }: Props) {
         <div>
           <PostListCard post={post} />
 
-          {post.list.map(({ memo, value }, index) => (
-            <PostContentsCard key={index} memo={memo} value={value} />
-          ))}
+          {post.list &&
+            post.list.map(({ memo, value }, index) => (
+              <PostContentsCard key={index} memo={memo} value={value} />
+            ))}
         </div>
       )}
     </section>

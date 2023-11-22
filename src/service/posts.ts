@@ -20,3 +20,13 @@ export async function getPost(id: string) {
       }
   `);
 }
+
+export async function createPost(userId: string, title: string) {
+  return client.create({
+    _type: 'post',
+    author: { _ref: userId },
+    title,
+    list: [], // TODO
+    sum: 0, // TODO
+  });
+}

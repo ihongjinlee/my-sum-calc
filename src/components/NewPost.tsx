@@ -1,36 +1,70 @@
 'use client';
 
-import { FormEvent } from 'react';
+import { AuthUser } from '@/model/user';
+import { useRouter } from 'next/navigation';
+import { FormEvent, useRef, useState } from 'react';
+import Avatar from './Avatar';
 
-export default function NewPost() {
+type Props = {
+  user: AuthUser;
+};
+
+export default function NewPost({ user }: Props) {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string>();
+
+  const titleRef = useRef<HTMLInputElement>(null);
+  const router = useRouter();
+
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
+
+    setLoading(true);
+
+    const formData = new FormData();
+    formData.append('title', titleRef.current?.value ?? '');
+
+    fetch('/api/posts/', { method: 'POST', body: formData }) //
+      .then((res) => {
+        if (!res.ok) {
+          setError(`${res.status} ${res.statusText}`);
+          return;
+        }
+
+        router.push('/');
+      })
+      .catch((err) => setError(err.toString()))
+      .finally(() => setLoading(false));
   };
 
   return (
     <section className='w-full flex flex-col items-center'>
+      {loading && <p>로딩중...</p>}
+      {error && <p>{error}</p>}
+      <Avatar image={user.image} size='medium' />
       <form className='w-full flex flex-col' onSubmit={handleSubmit}>
         <label>Title</label>
         <input
           className='outline-none text-lg border border-neutral-300 text-gray-950'
           name='text'
-          id='input-text'
+          id='input-title'
           required
           placeholder={'제목을 입력하세요.'}
+          ref={titleRef}
         />
         <label>List</label>
         <div className=''></div>
         <input
           className='outline-none text-lg border border-neutral-300 text-gray-950'
           name='text'
-          id='input-text'
+          id='input-value'
           required
           placeholder={'값을 입력하세요.'}
         />
         <input
           className='outline-none text-lg border border-neutral-300 text-gray-950'
           name='text'
-          id='input-text'
+          id='input-memo'
           required
           placeholder={'메모를 입력하세요.'}
         />
