@@ -1,4 +1,5 @@
 import { SimplePost } from '@/model/post';
+import { addComma } from '@/components/util/regexs';
 
 type Props = {
   post: SimplePost;
@@ -11,9 +12,7 @@ export default function PostListCard({ post: { title, sum } }: Props) {
     px-10 py-5 w-full items-center justify-between h-[120px]'
     >
       <h2>{title}</h2>
-      <h1 className='font-bold text-3xl'>
-        {sum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-      </h1>
+      <h1 className='font-bold text-3xl'>{addComma(sum)}</h1>
     </button>
   );
 }

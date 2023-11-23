@@ -1,4 +1,4 @@
-import { SimplePost } from '@/model/post';
+import { addComma } from '@/components/util/regexs';
 
 type Props = {
   memo: string;
@@ -12,9 +12,7 @@ export default function PostContentsCard({ memo, value }: Props) {
      px-10 py-2 w-full items-center justify-between'
     >
       <h2 className='flex justify-start'>{memo}</h2>
-      <h1 className='font-bold text-2xl flex justify-end'>
-        {value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-      </h1>
+      <h1 className='font-bold text-2xl flex justify-end'>{addComma(value)}</h1>
     </button>
   );
 }
