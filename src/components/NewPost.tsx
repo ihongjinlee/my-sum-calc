@@ -1,15 +1,40 @@
 'use client';
 
-import { AuthUser } from '@/model/user';
 import { useRouter } from 'next/navigation';
 import { FormEvent, useRef, useState } from 'react';
-import Avatar from './Avatar';
+import { PostListItem } from '@/model/post';
 
-type Props = {
-  user: AuthUser;
-};
+export default function NewPost() {
+  const [items, setItems] = useState<PostListItem[]>([]);
+  const [memo, setMemo] = useState('');
+  const [inputValue, setInputValue] = useState('');
 
-export default function NewPost({ user }: Props) {
+  function createPostListItem(
+    memo: string,
+    valueAsString: string
+  ): PostListItem {
+    return {
+      memo,
+      value: parseInt(valueAsString, 10),
+    };
+  }
+
+  const addItem = () => {
+    if (memo === '' || inputValue === '') {
+      return;
+    }
+
+    setItems([...items, createPostListItem(memo, inputValue)]);
+    setMemo('' as string);
+    setInputValue('' as string);
+  };
+
+  const removeItem = (index: number) => {
+    const updatedItems = [...items];
+    updatedItems.splice(index, 1);
+    setItems(updatedItems);
+  };
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string>();
 
@@ -41,35 +66,60 @@ export default function NewPost({ user }: Props) {
     <section className='w-full flex flex-col items-center'>
       {loading && <p>로딩중...</p>}
       {error && <p>{error}</p>}
-      <Avatar image={user.image} size='medium' />
       <form className='w-full flex flex-col' onSubmit={handleSubmit}>
         <label>Title</label>
         <input
-          className='outline-none text-lg border border-neutral-300 text-gray-950'
+          className='outline-none text-lg border border-neutral-300 text-gray-950 h-[40px]'
           name='text'
           id='input-title'
           required
-          placeholder={'제목을 입력하세요.'}
+          placeholder={'제목을 지어주세요.'}
           ref={titleRef}
         />
-        <label>List</label>
-        <div className=''></div>
-        <input
-          className='outline-none text-lg border border-neutral-300 text-gray-950'
-          name='text'
-          id='input-value'
-          required
-          placeholder={'값을 입력하세요.'}
-        />
-        <input
-          className='outline-none text-lg border border-neutral-300 text-gray-950'
-          name='text'
-          id='input-memo'
-          required
-          placeholder={'메모를 입력하세요.'}
-        />
+        <div className='grid grid-cols-1'>
+          <label>List</label>
+
+          <ul>
+            {items.map((item, index) => (
+              <li className='flex' key={index}>
+                <div className='text-2xl text-gray-950'>
+                  {item?.memo} {item?.value}
+                </div>
+                <button onClick={() => removeItem(index)}>Remove</button>
+              </li>
+            ))}
+          </ul>
+
+          <div>
+            <input
+              className='grow outline-none text-lg border border-neutral-300 text-gray-950'
+              type='text'
+              id='input-memo'
+              value={memo}
+              placeholder={'메모할 수 있어요.'}
+              onChange={(e) => setMemo(e.target.value)}
+            />
+            <input
+              className='flex-none w-40 outline-none text-lg border border-neutral-300 text-gray-950'
+              type='number'
+              id='input-value'
+              value={inputValue}
+              placeholder={'12345'}
+              onChange={(e) => setInputValue(e.target.value)}
+            />
+            <button
+              type='button'
+              className='flex-none w-20 bg-green-500 hover:bg-green-500/90 focus:ring-4 focus:outline-none focus:ring-green-500/50 dark:focus:ring-green-500/55
+              items-center justify-between'
+              onClick={addItem}
+            >
+              <h1 className='text-gray-900 font-bold'>+</h1>
+            </button>
+          </div>
+        </div>
 
         <button
+          type='submit'
           className='bg-yellow-500 hover:bg-yellow-500/90 focus:ring-4 focus:outline-none focus:ring-yellow-500/50 dark:focus:ring-yellow-500/55
           w-full items-center justify-between h-[60px]'
         >

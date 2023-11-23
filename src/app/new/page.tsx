@@ -12,7 +12,7 @@ export default async function NewPostPage() {
 
   return (
     <div className='flex'>
-      <NewPost user={session.user} />
+      <NewPost />
     </div>
   );
 }
