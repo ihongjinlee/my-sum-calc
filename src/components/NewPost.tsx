@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import { FormEvent, useRef, useState } from 'react';
 import { PostListItem } from '@/model/post';
 import { addComma } from '@/components/util/regexs';
+const { v4: uuidv4 } = require('uuid');
 
 export default function NewPost() {
   const [items, setItems] = useState<PostListItem[]>([]);
@@ -18,6 +19,7 @@ export default function NewPost() {
     return {
       memo,
       value: parseInt(valueAsString, 10),
+      _key: uuidv4(),
     };
   }
 
@@ -57,7 +59,6 @@ export default function NewPost() {
     items.forEach((item, index) => {
       Object.entries(item).forEach(([key, value]) => {
         formData.append(`list[${index}][${key}]`, String(value));
-        console.log(`list[${index}][${key}]`, String(value));
       });
     });
 

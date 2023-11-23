@@ -21,7 +21,8 @@ export async function POST(req: NextRequest) {
     for (let i = 0; i < listLength; i++) {
       const memo = form.get(`list[${i}][memo]`)?.toString() || '';
       const value = Number(form.get(`list[${i}][value]`)?.toString());
-      list.push({ memo, value });
+      const _key = form.get(`list[${i}][_key]`)?.toString() || '';
+      list.push({ memo, value, _key });
     }
 
     if (!title) {

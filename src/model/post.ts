@@ -7,6 +7,7 @@ export type SimplePost = {
 export type PostListItem = {
   memo: string;
   value: number;
+  _key: string;
 };
 
 export type Post = {
