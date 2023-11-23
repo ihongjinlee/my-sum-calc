@@ -1,3 +1,4 @@
+import { PostListItem } from '@/model/post';
 import { client } from './sanity';
 
 export async function getPostsOf(username: string) {
@@ -21,12 +22,17 @@ export async function getPost(id: string) {
   `);
 }
 
-export async function createPost(userId: string, title: string) {
+export async function createPost(
+  userId: string,
+  title: string,
+  list: PostListItem[],
+  sum: number
+) {
   return client.create({
     _type: 'post',
     author: { _ref: userId },
     title,
-    list: [], // TODO
-    sum: 0, // TODO
+    list,
+    sum,
   });
 }

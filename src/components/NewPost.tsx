@@ -3,11 +3,13 @@
 import { useRouter } from 'next/navigation';
 import { FormEvent, useRef, useState } from 'react';
 import { PostListItem } from '@/model/post';
+import { addComma } from '@/components/util/regexs';
 
 export default function NewPost() {
   const [items, setItems] = useState<PostListItem[]>([]);
   const [memo, setMemo] = useState('');
   const [inputValue, setInputValue] = useState('');
+  const [sum, setSum] = useState(0);
 
   function createPostListItem(
     memo: string,
@@ -23,6 +25,8 @@ export default function NewPost() {
     if (memo === '' || inputValue === '') {
       return;
     }
+
+    setSum(sum + Number(inputValue));
 
     setItems([...items, createPostListItem(memo, inputValue)]);
     setMemo('' as string);
@@ -48,6 +52,16 @@ export default function NewPost() {
 
     const formData = new FormData();
     formData.append('title', titleRef.current?.value ?? '');
+    formData.append('listLength', String(items?.length));
+
+    items.forEach((item, index) => {
+      Object.entries(item).forEach(([key, value]) => {
+        formData.append(`list[${index}][${key}]`, String(value));
+        console.log(`list[${index}][${key}]`, String(value));
+      });
+    });
+
+    formData.append('sum', String(sum));
 
     fetch('/api/posts/', { method: 'POST', body: formData }) //
       .then((res) => {
@@ -104,7 +118,7 @@ export default function NewPost() {
               type='number'
               id='input-value'
               value={inputValue}
-              placeholder={'12345'}
+              placeholder={'10000'}
               onChange={(e) => setInputValue(e.target.value)}
             />
             <button
@@ -117,6 +131,8 @@ export default function NewPost() {
             </button>
           </div>
         </div>
+
+        <div>합계 : {addComma(sum)}</div>
 
         <button
           type='submit'
