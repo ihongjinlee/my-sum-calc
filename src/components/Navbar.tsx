@@ -4,6 +4,7 @@ import packageJson from '../../package.json';
 import { useEffect } from 'react';
 import { signOut, useSession } from 'next-auth/react';
 import Avatar from './Avatar';
+import { useRouter } from 'next/navigation';
 
 export default function Navbar() {
   useEffect(() => {
@@ -34,10 +35,18 @@ export default function Navbar() {
     await signOut();
   };
 
+  const router = useRouter();
+
+  const handleHome = () => {
+    router.push('/');
+  };
+
   return (
     <div className='flex justify-between items-center h-[60px] px-4'>
       <nav className='flex'>
-        <div className='text-2xl font-bold'>나의 합계 계산기</div>
+        <button className='text-2xl font-bold' onClick={handleHome}>
+          나의 합계 계산기
+        </button>
         {process.env.NEXT_PUBLIC_RUN_MODE !== 'production' && (
           <div className='flex items-end text-gray-500 text-sm`'>
             {process.env.NEXT_PUBLIC_RUN_MODE} v{packageJson.version}

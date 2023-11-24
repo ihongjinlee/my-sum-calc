@@ -1,9 +1,9 @@
 'use client';
 
 import { Post } from '@/model/post';
-import useSWR, { mutate } from 'swr';
+import useSWR from 'swr';
 import PostContentsCard from './PostContentsCard';
-import PostListCard from './PostListCard';
+import PostContentsHeader from './PostContentsHeader';
 import usePosts from '@/hook/posts';
 
 type Props = {
@@ -29,7 +29,7 @@ export default function PostContents({ postId }: Props) {
       {post && (
         <div>
           <button onClick={handlePostDelete}>삭제</button>
-          <PostListCard post={post} />
+          <PostContentsHeader post={post} />
           {post.list &&
             post.list.map(({ memo, value }, index) => (
               <PostContentsCard key={index} memo={memo} value={value} />
