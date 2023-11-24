@@ -13,9 +13,9 @@ export async function getPostsOf(username: string) {
     `);
 }
 
-export async function getPost(id: string) {
+export async function getPost(postId: string) {
   return client.fetch(`
-  *[_type=="post" && _id=="${id}"][0]{
+  *[_type=="post" && _id=="${postId}"][0]{
         ...,
         "id":_id
       }
@@ -35,4 +35,8 @@ export async function createPost(
     list,
     sum,
   });
+}
+
+export async function deletePost(postId: string) {
+  return client.delete(postId);
 }
