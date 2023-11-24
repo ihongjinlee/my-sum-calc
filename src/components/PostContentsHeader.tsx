@@ -1,17 +1,21 @@
 import { SimplePost } from '@/model/post';
 import { addComma } from '@/components/util/regexs';
 import { useState } from 'react';
+import useFullPost from '@/hook/post';
 
 type Props = {
   post: SimplePost;
 };
 
-export default function PostListCard({ post: { title, sum } }: Props) {
-  const [titleValue, setTitleValue] = useState(title);
+export default function PostListCard({ post: { sum, id } }: Props) {
+  const { post, isLoading: loading, updatePostTitle } = useFullPost(id);
+
+  const [titleValue, setTitleValue] = useState(post?.title);
   const [modifyMode, setModifyMode] = useState(false);
 
   const handleChangeModify = () => {
     setModifyMode(!modifyMode);
+    updatePostTitle(id, titleValue || '');
   };
 
   return (

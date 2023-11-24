@@ -1,19 +1,16 @@
 'use client';
 
-import { Post } from '@/model/post';
-import useSWR from 'swr';
 import PostContentsCard from './PostContentsCard';
 import PostContentsHeader from './PostContentsHeader';
 import usePosts from '@/hook/posts';
+import useFullPost from '@/hook/post';
 
 type Props = {
   postId: string;
 };
 
 export default function PostContents({ postId }: Props) {
-  const { data: post, isLoading: loading } = useSWR<Post>(
-    `/api/posts/${postId}`
-  );
+  const { post, isLoading: loading } = useFullPost(postId);
 
   const { deletePost } = usePosts();
 

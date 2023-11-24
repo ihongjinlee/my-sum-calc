@@ -40,3 +40,7 @@ export async function createPost(
 export async function deletePost(postId: string) {
   return client.delete(postId);
 }
+
+export async function updatePostTitle(postId: string, title: string) {
+  return client.patch(postId).set({ title }).commit();
+}
