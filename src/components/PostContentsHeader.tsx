@@ -1,21 +1,21 @@
-import { SimplePost } from '@/model/post';
+import { Post } from '@/model/post';
 import { addComma } from '@/components/util/regexs';
 import { useState } from 'react';
 import useFullPost from '@/hook/post';
 
 type Props = {
-  post: SimplePost;
+  post: Post;
 };
 
-export default function PostListCard({ post: { sum, id } }: Props) {
-  const { post, isLoading: loading, updatePostTitle } = useFullPost(id);
-
-  const [titleValue, setTitleValue] = useState(post?.title);
+export default function PostContentsHeader({ post }: Props) {
+  const [titleValue, setTitleValue] = useState(post.title);
   const [modifyMode, setModifyMode] = useState(false);
+
+  const { setPostTitle } = useFullPost(post.id);
 
   const handleChangeModify = () => {
     setModifyMode(!modifyMode);
-    updatePostTitle(id, titleValue || '');
+    setPostTitle(post, titleValue);
   };
 
   return (
@@ -30,7 +30,7 @@ export default function PostListCard({ post: { sum, id } }: Props) {
           modifyMode ? '확인' : '수정'
         }]`}</button>
       </div>
-      <h1 className='font-bold text-3xl'>{addComma(sum)}</h1>
+      <h1 className='font-bold text-3xl'>{addComma(post.sum)}</h1>
     </section>
   );
 }

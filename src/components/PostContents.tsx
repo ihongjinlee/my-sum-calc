@@ -4,6 +4,7 @@ import PostContentsCard from './PostContentsCard';
 import PostContentsHeader from './PostContentsHeader';
 import usePosts from '@/hook/posts';
 import useFullPost from '@/hook/post';
+import { useRouter } from 'next/navigation';
 
 type Props = {
   postId: string;
@@ -12,12 +13,14 @@ type Props = {
 export default function PostContents({ postId }: Props) {
   const { post, isLoading: loading } = useFullPost(postId);
 
-  const { deletePost } = usePosts();
+  const { setDeletePost } = usePosts();
+  const router = useRouter();
 
   const handlePostDelete = () => {
     const userDecision = window.confirm('정말 삭제하시나요?');
     if (userDecision) {
-      deletePost(postId);
+      setDeletePost(postId);
+      router.push('/');
     }
   };
 
