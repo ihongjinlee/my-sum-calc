@@ -44,3 +44,20 @@ export async function deletePost(postId: string) {
 export async function updatePostTitle(postId: string, title: string) {
   return client.patch(postId).set({ title }).commit();
 }
+
+export async function addPostListItem(
+  postId: string,
+  memo: string,
+  value: number
+) {
+  return client
+    .patch(postId) //
+    .setIfMissing({ list: [] })
+    .append('list', [
+      {
+        memo,
+        value,
+      },
+    ])
+    .commit({ autoGenerateArrayKeys: true });
+}
