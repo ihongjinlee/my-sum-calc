@@ -45,6 +45,10 @@ export async function updatePostTitle(postId: string, title: string) {
   return client.patch(postId).set({ title }).commit();
 }
 
+export async function updatePostSum(postId: string, sum: number) {
+  return client.patch(postId).set({ sum }).commit();
+}
+
 export async function addPostListItem(
   postId: string,
   memo: string,

@@ -30,14 +30,20 @@ export default function PostContents({ postId }: Props) {
   const [inputValue, setInputValue] = useState('');
 
   const addItem = () => {
-    if (memo === '' || inputValue === '') {
+    if (memo === '' || inputValue === '' || !post) {
       return;
     }
 
-    // setSum(sum + Number(inputValue));
+    postListItem(
+      { memo, value: Number(inputValue), _key: uuidv4() },
 
-    // setItems([...items, createPostListItem(memo, inputValue)]);
-    postListItem({ memo, value: Number(inputValue), _key: uuidv4() });
+      post.list.reduce(
+        (previousValue, { value: currentValue }) =>
+          previousValue + currentValue,
+        0
+      ) + Number(inputValue)
+    );
+
     setMemo('' as string);
     setInputValue('' as string);
   };

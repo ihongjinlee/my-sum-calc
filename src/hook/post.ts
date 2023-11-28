@@ -9,6 +9,13 @@ async function updatePostTitle(postId: string, title: string) {
   }).then((res) => res.json());
 }
 
+async function updatePostSum(postId: string, sum: number) {
+  return fetch(`/api/postsum`, {
+    method: 'PUT',
+    body: JSON.stringify({ postId, sum }),
+  }).then((res) => res.json());
+}
+
 async function addPostListItem(postId: string, memo: string, value: number) {
   return fetch('/api/postlistitem', {
     method: 'POST',
@@ -44,7 +51,7 @@ export default function useFullPost(postId: string) {
   );
 
   const postListItem = useCallback(
-    (item: PostListItem) => {
+    (item: PostListItem, sum: number) => {
       if (!post) return;
 
       let newPost =
@@ -52,11 +59,15 @@ export default function useFullPost(postId: string) {
           ? {
               ...post,
               list: [item],
+              sum,
             }
           : {
               ...post,
               list: [...post.list, item],
+              sum,
             };
+
+      updatePostSum(post.id, sum);
 
       return mutate(addPostListItem(post.id, item.memo, item.value), {
         optimisticData: newPost,
