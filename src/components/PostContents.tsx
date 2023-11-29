@@ -13,7 +13,12 @@ type Props = {
 };
 
 export default function PostContents({ postId }: Props) {
-  const { post, isLoading: loading, postListItem } = useFullPost(postId);
+  const {
+    post,
+    isLoading: loading,
+    postListItem,
+    deletePostListItem,
+  } = useFullPost(postId);
 
   const { setDeletePost } = usePosts();
   const router = useRouter();
@@ -47,6 +52,24 @@ export default function PostContents({ postId }: Props) {
     setMemo('' as string);
     setInputValue('' as string);
   };
+
+  const deleteItem = (postListItemId: string) => {
+    if (!post) {
+      return;
+    }
+
+    deletePostListItem(
+      postListItemId,
+      post.list
+        .filter((item) => item._key !== postListItemId)
+        .reduce(
+          (previousValue, { value: currentValue }) =>
+            previousValue + currentValue,
+          0
+        )
+    );
+  };
+
   return (
     <section>
       {post && (
@@ -55,8 +78,14 @@ export default function PostContents({ postId }: Props) {
             <button onClick={handlePostDelete}>삭제</button>
             <PostContentsHeader post={post} />
             {post.list &&
-              post.list.map(({ memo, value }, index) => (
-                <PostContentsCard key={index} memo={memo} value={value} />
+              post.list.map(({ memo, value, _key }) => (
+                <PostContentsCard
+                  key={_key}
+                  memo={memo}
+                  value={value}
+                  _key={_key}
+                  onClickDeleteItem={deleteItem}
+                />
               ))}
           </div>
           <div>

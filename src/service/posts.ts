@@ -65,3 +65,10 @@ export async function addPostListItem(
     ])
     .commit({ autoGenerateArrayKeys: true });
 }
+
+export async function deletePostListItem(postId: string, postItemId: string) {
+  return client
+    .patch(postId) //
+    .unset([`list[_key=="${postItemId}"]`])
+    .commit({ autoGenerateArrayKeys: true });
+}

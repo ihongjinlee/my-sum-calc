@@ -23,6 +23,13 @@ async function addPostListItem(postId: string, memo: string, value: number) {
   }).then((res) => res.json());
 }
 
+async function apiDeletePostListItem(postId: string, postListItemId: string) {
+  return fetch('/api/postlistitem', {
+    method: 'DELETE',
+    body: JSON.stringify({ postId, postListItemId }),
+  }).then((res) => res.json());
+}
+
 export default function useFullPost(postId: string) {
   const {
     data: post,
@@ -79,5 +86,34 @@ export default function useFullPost(postId: string) {
     [post, mutate, globalMutate]
   );
 
-  return { post, isLoading, error, setPostTitle, postListItem };
+  const deletePostListItem = useCallback(
+    (postListItemId: string, sum: number) => {
+      if (!post) return;
+
+      const newPost = {
+        ...post,
+        list: post.list.filter((item) => item._key !== postListItemId),
+        sum,
+      };
+
+      updatePostSum(post.id, sum);
+
+      return mutate(apiDeletePostListItem(post.id, postListItemId), {
+        optimisticData: newPost,
+        populateCache: false,
+        revalidate: false,
+        rollbackOnError: true,
+      }).then(() => globalMutate('/api/posts'));
+    },
+    [post, mutate, globalMutate]
+  );
+
+  return {
+    post,
+    isLoading,
+    error,
+    setPostTitle,
+    postListItem,
+    deletePostListItem,
+  };
 }

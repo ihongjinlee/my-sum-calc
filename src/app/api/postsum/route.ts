@@ -6,7 +6,7 @@ export async function PUT(req: NextRequest) {
   return withSessionUser(async () => {
     const { postId, sum } = await req.json();
 
-    if (!postId || !sum) {
+    if (!postId) {
       return new Response('Bad Request', { status: 400 });
     }
 
